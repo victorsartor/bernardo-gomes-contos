@@ -2,9 +2,7 @@ backend:
   name: github
   repo: victorsartor/bernardo-gomes-contos
   branch: master
-  # ATENÇÃO: troque pela URL real depois do primeiro deploy no Vercel
-  # (ex.: https://bernardo-gomes-contos.vercel.app). Sem isso o login não funciona.
-  base_url: https://SEU-DOMINIO-VERCEL.vercel.app
+  base_url: https://bernardo-gomes-contos.vercel.app
   auth_endpoint: api/auth
 
 # Só existe caso algum dia se queira subir imagem de capa em vez de colar uma URL.

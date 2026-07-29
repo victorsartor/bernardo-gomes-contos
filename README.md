@@ -47,10 +47,16 @@ que **escreve direto em `content/contos.json` e commita no GitHub**; o Vercel
 redeploya sozinho a cada publicação (leva 1–3 minutos, sem precisar de mim ou de um
 desenvolvedor no meio).
 
-### Configuração (feita uma única vez)
+Site no ar: **https://bernardo-gomes-contos.vercel.app** (projeto Vercel
+`victor-sartors-projects/bernardo-gomes-contos`, já conectado ao repositório —
+todo push em `master` reimplanta sozinho).
 
-Passos 1–2 abaixo só podem ser feitos por quem tem acesso às contas do GitHub/Vercel
-deste projeto — não são coisas que dá pra automatizar de fora.
+### Configuração (feita uma única vez, ainda pendente)
+
+Os dois passos abaixo só podem ser feitos por quem tem acesso às contas do
+GitHub/Vercel — não dá pra automatizar de fora. Até fazer isso, `/admin` carrega
+mas o login falha (é esperado: `/api/auth` responde com a própria mensagem
+explicando o que falta).
 
 **1. Criar um GitHub OAuth App**
 [github.com/settings/developers](https://github.com/settings/developers) → **OAuth Apps** → **New OAuth App**:
@@ -58,25 +64,26 @@ deste projeto — não são coisas que dá pra automatizar de fora.
 | Campo | Valor |
 |---|---|
 | Application name | Bernardo Gomes — Escritório (ou o nome que preferir) |
-| Homepage URL | `https://SEU-DOMINIO.vercel.app` |
-| Authorization callback URL | `https://SEU-DOMINIO.vercel.app/api/callback` |
+| Homepage URL | `https://bernardo-gomes-contos.vercel.app` |
+| Authorization callback URL | `https://bernardo-gomes-contos.vercel.app/api/callback` |
 
 Depois de criar, clique em **Generate a new client secret**. Guarde os dois valores
 (**Client ID** e **Client Secret**) — o secret só aparece uma vez.
 
 **2. Colar as duas chaves no Vercel**
-No projeto, em Settings → Environment Variables, adicionar:
+Em [vercel.com/victor-sartors-projects/bernardo-gomes-contos/settings/environment-variables](https://vercel.com/victor-sartors-projects/bernardo-gomes-contos/settings/environment-variables),
+adicionar:
 
 - `OAUTH_CLIENT_ID` = o Client ID do passo 1
 - `OAUTH_CLIENT_SECRET` = o Client Secret do passo 1
 
-Redeploy depois de salvar (env var nova só entra em vigor num deploy novo).
+Redeploy depois de salvar (env var nova só entra em vigor num deploy novo — um
+`git push` qualquer, ou o botão "Redeploy" no painel).
 
-**3. Atualizar `admin/config.yml`**
-Trocar a linha `base_url: https://SEU-DOMINIO-VERCEL.vercel.app` pelo domínio real que
-o Vercel deu ao projeto, commitar e dar push (isso já dispara o redeploy).
+`admin/config.yml` já está apontando pro domínio certo (`base_url` preenchido) —
+não precisa mexer nisso.
 
-**4. Convidar o Bernardo (se ele for editar sozinho)**
+**3. Convidar o Bernardo (se ele for editar sozinho)**
 Login com GitHub só funciona de verdade se a conta logada tiver permissão de escrita
 no repositório — sem isso, ele entra no `/admin` mas o botão "Publicar" falha ao
 tentar commitar. Em Settings → Collaborators do repositório, adicionar a conta GitHub
@@ -84,9 +91,9 @@ dele.
 
 ### Uso do dia a dia (depois de configurado)
 
-`seusite.com/admin` → entrar com GitHub → editar/adicionar conto → **Publicar**. Isso
-vira um commit em `content/contos.json`, o Vercel redeploya, e em 1–3 minutos está no
-ar — sem precisar de mim.
+`bernardo-gomes-contos.vercel.app/admin` → entrar com GitHub → editar/adicionar
+conto → **Publicar**. Isso vira um commit em `content/contos.json`, o Vercel
+redeploya, e em 1–3 minutos está no ar — sem precisar de mim.
 
 ## CSS
 
