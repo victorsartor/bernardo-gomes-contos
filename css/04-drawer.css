@@ -94,11 +94,20 @@
 /* ===== Fichas (hotspots) =====
    Geradas por js/home.js::renderHotspots() a partir de content/contos.json.
    A posição vertical vem de --row-top, medida pixel a pixel contra a arte
-   da gaveta (ANALISE-DESIGN.md B11). O rótulo (título + tags) é HTML real,
-   não pixel: some visualmente até o hover no mouse (mantém o visual
-   original — o título já está impresso na foto), mas em touch é a única
-   forma de saber o que cada ficha é, então ali ele fica sempre legível.
-   Ver ANALISE-DESIGN.md B1/B2/B3. */
+   da gaveta (ANALISE-DESIGN.md B11).
+
+   O nome do conto NÃO é repetido em HTML por cima da faixa — ele já está
+   impresso na foto, e sobrepor um segundo rótulo ali criava um "nome
+   duplicado" visível (uma faixa branca com o mesmo texto por cima do
+   texto da própria imagem). O nome some pra sighted mouse users, mas
+   continua acessível: cada ficha tem aria-label com título + tags, então
+   leitor de tela e o idioma (PT/EN) continuam corretos mesmo a foto sendo
+   fixa em português. Ver ANALISE-DESIGN.md B1/B2/B3.
+
+   O que aparece ao passar o mouse são só as TAGS — isso não existe na foto,
+   então não duplica nada — como um selinho flutuando ACIMA da faixa (não
+   por cima dela), equivalente à tooltip antiga (`.hotspot::after`) do site
+   original, só que gerado a partir do dado real em vez de hardcoded. */
 .hotspot-layer {
   position:absolute;
   inset:0;
@@ -115,10 +124,6 @@
   min-height:34px;
   padding:6px 12px;
   margin:0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
   background:transparent;
   border:0;
   outline:0;
@@ -127,29 +132,28 @@
   font:inherit;
   border-radius:8px;
   cursor:pointer;
-  text-align:left;
-  transition:transform .22s cubic-bezier(.16,1,.3,1), background-color .18s ease, box-shadow .18s ease;
-}
-
-.hotspot-title {
-  font-family:Cormorant Garamond, Georgia, serif;
-  font-weight:700;
-  font-size:clamp(12px, 1.9vw, 17px);
-  color:var(--wine-dark);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  transition:transform .22s cubic-bezier(.16,1,.3,1);
 }
 
 .hotspot-tags {
-  flex:0 0 auto;
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 6px);
+  transform:translateX(-50%) translateY(4px);
+  white-space:nowrap;
+  pointer-events:none;
   font-family:Cinzel, serif;
-  font-size:9px;
+  font-size:10px;
   letter-spacing:.06em;
   text-transform:uppercase;
-  color:var(--wine-soft);
-  opacity:.85;
-  white-space:nowrap;
+  color:var(--wine);
+  background:rgba(255,249,241,.96);
+  border:1px solid rgba(92,31,37,.12);
+  padding:5px 11px;
+  border-radius:999px;
+  box-shadow:0 9px 20px rgba(54,34,24,.12);
+  opacity:0;
+  transition:opacity .18s ease, transform .18s ease;
 }
 
 .hotspot:hover,
@@ -164,32 +168,20 @@
   outline-offset:2px;
 }
 
-/* Mouse com hover de verdade: o rótulo fica quase invisível em repouso
-   (o título já está na foto) e vira um chip legível só ao apontar —
-   equivalente à tooltip antiga, mas com texto real por trás. */
+/* Mouse com hover de verdade: o selo de tags só aparece ao apontar. Em
+   qualquer outro tipo de ponteiro (touch com hover impreciso, etc.) ele
+   fica sempre visível — não custa nada e não duplica texto da imagem. */
 @media (hover:hover) and (pointer:fine) {
-  .hotspot-title,
   .hotspot-tags {
     opacity:0;
-    transition:opacity .18s ease;
   }
 
-  /* só :hover/:focus-visible revelam o rótulo — de propósito sem .active
-     aqui. .active marca "este é o conto selecionado no momento" e isso já
-     aparece no card de preview ao lado; se o rótulo também ficasse
-     permanentemente visível na ficha selecionada, ele brigaria com o
-     texto da própria foto e com a ficha de papel que sobe (.ficha-paper) */
-  .hotspot:hover .hotspot-title,
+  /* de propósito sem .active aqui — .active já aparece no card de preview
+     ao lado; o selo é só feedback de "estou apontando pra isto". */
   .hotspot:hover .hotspot-tags,
-  .hotspot:focus-visible .hotspot-title,
   .hotspot:focus-visible .hotspot-tags {
     opacity:1;
-  }
-
-  .hotspot:hover,
-  .hotspot:focus-visible {
-    background:rgba(255,249,241,.92) !important;
-    box-shadow:0 9px 22px rgba(54,34,24,.14) !important;
+    transform:translateX(-50%) translateY(0);
   }
 }
 

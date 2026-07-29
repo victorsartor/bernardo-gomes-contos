@@ -73,7 +73,6 @@ export function renderHotspots() {
       return `
         <button type="button" class="hotspot" data-story="${slot.key}" style="--row-top:${slot.rowTop}%"
                 aria-label="${s.title} — ${s.tags.join(', ')}">
-          <span class="hotspot-title">${s.title}</span>
           <span class="hotspot-tags">${s.tags.join(' · ')}</span>
         </button>`;
     }).join('');
