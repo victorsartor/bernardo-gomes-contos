@@ -1,12 +1,13 @@
 # Site Bernardo Gomes — estrutura
 
+Repositório: [github.com/victorsartor/bernardo-gomes-contos](https://github.com/victorsartor/bernardo-gomes-contos)
+
 Separado a partir do HTML único original (`../bernardo_gomes_site_hover_leitura_corrigido (2) (2).html`).
 A separação em si não mudou comportamento (verificado comparando o computed style de
 todos os 384 elementos nos três estados — home, leitura, biblioteca). Depois disso, a
-Fase 1 do plano de correção (`../ANALISE-DESIGN.md`) foi aplicada em cima: gaveta em
-AVIF/WebP, fichas viraram HTML de verdade, parallax corrigido, tipografia de leitura
-mobile e navegação com `pushState`. Ver "Status — Fase 1 aplicada" no topo do relatório
-para o antes/depois de cada item.
+Fase 1 do plano de correção (`../ANALISE-DESIGN.md`) foi aplicada: gaveta em AVIF/WebP,
+fichas viraram HTML de verdade, parallax corrigido, tipografia de leitura mobile e
+navegação com `pushState`. Ver "Status — Fase 1 aplicada" no topo do relatório.
 
 ## Como abrir localmente
 
@@ -14,24 +15,78 @@ O JS usa módulos ES, que o browser bloqueia em `file://`. Precisa de um servido
 
     npx serve app          # ou: python -m http.server 8000 -d app
 
-Depois abrir `http://localhost:3000`. Em produção (Netlify/Vercel) funciona direto.
+Depois abrir `http://localhost:3000`.
 
 ## Onde mexer
 
-| Quero... | Arquivo |
+| Quero... | Onde |
 |---|---|
-| adicionar ou editar um conto | `js/data/stories.js` |
-| trocar quais contos vão em "Contos do mês" | `js/config.js` |
-| mudar a senha do Escritório | `js/config.js` |
+| adicionar, editar ou reordenar um conto | `/admin` no site publicado (Escritório) — ou editar `content/contos.json` direto |
+| trocar quais contos vão em "Contos do mês" | campo "Destacar" de cada conto, em `/admin` |
 | mexer em textos de interface, bio ou privacidade | `js/data/i18n.js` |
-| trocar a imagem de fundo de um conto | `js/data/covers.js` |
+| trocar a imagem de fundo padrão de um conto | `js/data/covers.js` |
 | trocar um ícone | `js/data/icons.js` |
 | reposicionar uma ficha na foto da gaveta (se trocar a arte) | `js/data/drawer-layout.js` |
 
 **Sobre o limite de 7 fichas na gaveta:** a foto (`assets/img/gaveta.png`) tem 7 slots
-desenhados — é o teto físico da imagem, não do código. Um 8º conto cadastrado no
-Escritório aparece normalmente em "Contos do mês", na lista mobile e em "Todos os
-contos"; só não ganha uma ficha própria na ilustração da gaveta no desktop.
+desenhados — é o teto físico da imagem, não do código. Um 8º conto aparece normalmente
+em "Contos do mês", na lista mobile e em "Todos os contos"; só não ganha uma ficha
+própria na ilustração da gaveta no desktop.
+
+**Cuidado ao editar pelo `/admin`:** dá pra apagar ou renomear a chave (`key`) de um
+dos 7 contos originais — nada impede isso tecnicamente, porque agora é conteúdo de
+verdade, não um formulário travado. Se isso acontecer sem querer, o histórico do
+Git tem a versão anterior (`git log content/contos.json`); é reversível.
+
+## O Escritório agora é `/admin` (Sveltia CMS + login com GitHub)
+
+O antigo modal com senha fixa (`bernardo`) salvando em `localStorage` do navegador
+foi removido — ele nunca publicava nada de verdade, só guardava no aparelho de quem
+editou (ver `ANALISE-DESIGN.md`, seção 5). No lugar: `/admin` é um painel de verdade
+que **escreve direto em `content/contos.json` e commita no GitHub**; o Vercel
+redeploya sozinho a cada publicação (leva 1–3 minutos, sem precisar de mim ou de um
+desenvolvedor no meio).
+
+### Configuração (feita uma única vez)
+
+Passos 1–2 abaixo só podem ser feitos por quem tem acesso às contas do GitHub/Vercel
+deste projeto — não são coisas que dá pra automatizar de fora.
+
+**1. Criar um GitHub OAuth App**
+[github.com/settings/developers](https://github.com/settings/developers) → **OAuth Apps** → **New OAuth App**:
+
+| Campo | Valor |
+|---|---|
+| Application name | Bernardo Gomes — Escritório (ou o nome que preferir) |
+| Homepage URL | `https://SEU-DOMINIO.vercel.app` |
+| Authorization callback URL | `https://SEU-DOMINIO.vercel.app/api/callback` |
+
+Depois de criar, clique em **Generate a new client secret**. Guarde os dois valores
+(**Client ID** e **Client Secret**) — o secret só aparece uma vez.
+
+**2. Colar as duas chaves no Vercel**
+No projeto, em Settings → Environment Variables, adicionar:
+
+- `OAUTH_CLIENT_ID` = o Client ID do passo 1
+- `OAUTH_CLIENT_SECRET` = o Client Secret do passo 1
+
+Redeploy depois de salvar (env var nova só entra em vigor num deploy novo).
+
+**3. Atualizar `admin/config.yml`**
+Trocar a linha `base_url: https://SEU-DOMINIO-VERCEL.vercel.app` pelo domínio real que
+o Vercel deu ao projeto, commitar e dar push (isso já dispara o redeploy).
+
+**4. Convidar o Bernardo (se ele for editar sozinho)**
+Login com GitHub só funciona de verdade se a conta logada tiver permissão de escrita
+no repositório — sem isso, ele entra no `/admin` mas o botão "Publicar" falha ao
+tentar commitar. Em Settings → Collaborators do repositório, adicionar a conta GitHub
+dele.
+
+### Uso do dia a dia (depois de configurado)
+
+`seusite.com/admin` → entrar com GitHub → editar/adicionar conto → **Publicar**. Isso
+vira um commit em `content/contos.json`, o Vercel redeploya, e em 1–3 minutos está no
+ar — sem precisar de mim.
 
 ## CSS
 

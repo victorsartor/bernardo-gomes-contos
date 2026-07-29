@@ -92,7 +92,7 @@
 }
 
 /* ===== Fichas (hotspots) =====
-   Geradas por js/home.js::renderHotspots() a partir de js/data/stories.js.
+   Geradas por js/home.js::renderHotspots() a partir de content/contos.json.
    A posição vertical vem de --row-top, medida pixel a pixel contra a arte
    da gaveta (ANALISE-DESIGN.md B11). O rótulo (título + tags) é HTML real,
    não pixel: some visualmente até o hover no mouse (mantém o visual

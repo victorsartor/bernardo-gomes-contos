@@ -1,0 +1,68 @@
+backend:
+  name: github
+  repo: victorsartor/bernardo-gomes-contos
+  branch: master
+  # ATENÇÃO: troque pela URL real depois do primeiro deploy no Vercel
+  # (ex.: https://bernardo-gomes-contos.vercel.app). Sem isso o login não funciona.
+  base_url: https://SEU-DOMINIO-VERCEL.vercel.app
+  auth_endpoint: api/auth
+
+# Só existe caso algum dia se queira subir imagem de capa em vez de colar uma URL.
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "contos"
+    label: "Contos"
+    files:
+      - name: "contos"
+        label: "Todos os contos"
+        file: "content/contos.json"
+        fields:
+          - label: "Contos"
+            name: "stories"
+            widget: "list"
+            summary: "{{fields.key}} — {{fields.pt.title}}"
+            fields:
+              - label: "Chave (parte da URL — sem espaço, sem acento)"
+                name: "key"
+                widget: "string"
+                pattern: ["^[a-z0-9-]+$", "Use só letras minúsculas, números e hífen"]
+                hint: "Não mude a chave de um conto já publicado — o link dele para de funcionar."
+              - label: "Destacar em \"Contos do mês\""
+                name: "featured"
+                widget: "boolean"
+                default: false
+              - label: "Imagem de capa (URL, opcional)"
+                name: "cover"
+                widget: "string"
+                required: false
+                hint: "Cole o endereço de uma imagem. Se deixar em branco, usa a imagem padrão do conto."
+              - label: "Português"
+                name: "pt"
+                widget: "object"
+                fields:
+                  - { label: "Título", name: "title", widget: "string" }
+                  - { label: "Tags", name: "tags", widget: "list" }
+                  - { label: "Tempo de leitura", name: "time", widget: "string", hint: "ex.: 7 min de leitura" }
+                  - { label: "Autor", name: "author", widget: "string", default: "Bernardo Gomes" }
+                  - { label: "Resumo (aparece no card e na prévia)", name: "teaser", widget: "text" }
+                  - label: "Parágrafos"
+                    name: "paragraphs"
+                    widget: "list"
+                    field: { label: "Parágrafo", name: "paragraph", widget: "text" }
+              - label: "English (optional)"
+                name: "en"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Title", name: "title", widget: "string", required: false }
+                  - { label: "Tags", name: "tags", widget: "list", required: false }
+                  - { label: "Reading time", name: "time", widget: "string", required: false, hint: "e.g. 7 min read" }
+                  - { label: "Author", name: "author", widget: "string", default: "Bernardo Gomes", required: false }
+                  - { label: "Teaser", name: "teaser", widget: "text", required: false }
+                  - label: "Paragraphs"
+                    name: "paragraphs"
+                    widget: "list"
+                    required: false
+                    field: { label: "Paragraph", name: "paragraph", widget: "text" }

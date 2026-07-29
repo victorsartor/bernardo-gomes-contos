@@ -265,3 +265,7 @@
 .footer-links a:hover {
   color:var(--wine);
 }
+
+/* link para o Escritório (/admin) — discreto, não compete com Sobre/Newsletter/Privacidade */
+.footer-links .footer-studio { color: #9a8b80; font-size: 16px; }
+.footer-links .footer-studio:hover { color: var(--wine); }

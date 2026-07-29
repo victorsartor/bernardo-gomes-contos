@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="css/10-utilities.css">
   <link rel="stylesheet" href="css/11-motion.css">
   <link rel="stylesheet" href="css/12-about.css">
-  <link rel="stylesheet" href="css/13-studio.css">
   <link rel="stylesheet" href="css/14-library.css">
   <link rel="stylesheet" href="css/15-privacy.css">
 </head>
@@ -102,7 +101,7 @@
                          alt="Gaveta antiga de arquivo com fichas dos contos de Bernardo Gomes" />
                   </picture>
 
-                  <!-- gerado por js/home.js a partir de js/data/stories.js (renderHotspots) -->
+                  <!-- gerado por js/home.js a partir de content/contos.json (renderHotspots) -->
                   <div class="hotspot-layer" id="hotspotLayer"></div>
 
                   <!-- ficha que "sobe" da gaveta ao selecionar um conto -->
@@ -190,7 +189,7 @@
               <a href="#sobre">Sobre</a>
               <a href="#newsletter">Newsletter</a>
               <a href="#privacidade" id="privacyLink">Privacidade</a>
-              <a href="#escritorio" id="studioLink" class="footer-studio" title="Área do autor">Escritório</a>
+              <a href="/admin/" class="footer-studio" title="Área do autor — entrar com GitHub">Escritório</a>
             </div>
           </footer>
         </div>
@@ -244,80 +243,8 @@
     </div>
   </div>
 
-  <!-- ===== Escritório: área do autor para cadastrar contos ===== -->
-  <div class="privacy-modal" id="studioModal" role="dialog" aria-modal="true" aria-label="Escritório">
-    <div class="privacy-card studio-card">
-      <button class="privacy-x" id="studioX" type="button" aria-label="Fechar">
-        <svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-      </button>
-      <div class="privacy-eyebrow">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c6-1 9-4 13-9 1.5-1.9 3-4.5 3-7-2.5 0-5.1 1.5-7 3-5 4-8 7-9 13z"/><path d="M4 20l5-5M14 7l3 3"/></svg>
-        <span>ESCRITÓRIO</span>
-      </div>
-      <h2>Gerenciar contos</h2>
-
-      <!-- 1) porta de senha -->
-      <div id="studioGate">
-        <p class="privacy-sub">Área do autor. Informe a senha para entrar.</p>
-        <form class="studio-gate" id="studioGateForm">
-          <input type="password" id="studioPass" placeholder="Senha" autocomplete="off">
-          <button class="studio-save" type="submit">Entrar</button>
-          <div class="studio-note" id="studioGateNote"></div>
-        </form>
-      </div>
-
-      <!-- 2) painel (revelado após a senha) -->
-      <div id="studioPanel" hidden>
-        <p class="privacy-sub">Cadastre ou edite contos. Tudo fica salvo neste navegador — use <strong>Exportar</strong> para publicar.</p>
-        <div class="studio-grid">
-          <aside class="studio-list">
-            <button class="studio-new" id="studioNew" type="button">+ Novo conto</button>
-            <div id="studioItems"></div>
-          </aside>
-
-          <form class="studio-form" id="studioForm">
-            <label>Chave (id único, sem espaços)
-              <input id="f_key" placeholder="ex.: novo-conto" required>
-            </label>
-            <div class="studio-row">
-              <label>Título (PT)<input id="f_title_pt" required></label>
-              <label>Título (EN)<input id="f_title_en" placeholder="(opcional)"></label>
-            </div>
-            <div class="studio-row">
-              <label>Tags PT (vírgula)<input id="f_tags_pt" placeholder="Drama, Memória"></label>
-              <label>Tags EN (vírgula)<input id="f_tags_en" placeholder="(opcional)"></label>
-            </div>
-            <div class="studio-row">
-              <label>Tempo de leitura (PT)<input id="f_time_pt" placeholder="7 min de leitura"></label>
-              <label>Tempo de leitura (EN)<input id="f_time_en" placeholder="7 min read"></label>
-            </div>
-            <label>Resumo / chamada (PT)<textarea id="f_teaser_pt" rows="2"></textarea></label>
-            <label>Resumo / chamada (EN)<textarea id="f_teaser_en" rows="2" placeholder="(opcional)"></textarea></label>
-            <label>Texto do conto (PT) — separe parágrafos com uma linha em branco
-              <textarea id="f_body_pt" rows="6"></textarea></label>
-            <label>Texto do conto (EN) — opcional
-              <textarea id="f_body_en" rows="4" placeholder="(opcional)"></textarea></label>
-            <label>Imagem de capa (URL)<input id="f_cover" placeholder="https://..."></label>
-
-            <div class="studio-actions">
-              <button type="submit" class="studio-save">Salvar conto</button>
-              <button type="button" id="studioDelete" class="studio-del">Excluir</button>
-              <span style="flex:1"></span>
-              <button type="button" id="studioExport" class="studio-ghost">Exportar</button>
-              <label class="studio-ghost" style="cursor:pointer; display:inline-flex; align-items:center;">Importar
-                <input id="studioImport" type="file" accept="application/json" hidden>
-              </label>
-            </div>
-            <div class="studio-note" id="studioNote"></div>
-          </form>
-        </div>
-      </div>
-
-      <div class="privacy-foot">
-        <button class="privacy-close-btn" id="studioClose" type="button">Fechar</button>
-      </div>
-    </div>
-  </div>
+  <!-- O Escritório (antigo modal com senha fixa + localStorage) foi substituído
+       pelo /admin (Sveltia CMS). Ver README.md. -->
 
   <!-- ===== Todos os contos ===== -->
   <div class="privacy-modal" id="allModal" role="dialog" aria-modal="true" aria-label="Todos os contos">

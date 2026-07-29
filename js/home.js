@@ -4,10 +4,9 @@
  * apareça em todo lugar sem precisar editar HTML. Ver ANALISE-DESIGN.md B3.
  */
 
-import { state, storyOrder, BUILTIN_KEYS, tStory } from './state.js';
+import { state, storyOrder, monthlyPicks, BUILTIN_KEYS, tStory } from './state.js';
 import { ICON, storyIcons, storyIconDefault } from './data/icons.js';
 import { DRAWER_SLOTS } from './data/drawer-layout.js';
-import { monthlyPicks } from './config.js';
 import { openReader } from './reader.js';
 
 const hotspotLayer = document.getElementById('hotspotLayer');
@@ -112,7 +111,7 @@ export function renderDrawerList() {
   });
 }
 
-/** Grade "Contos do mês": os escolhidos em config.js + tudo que o autor cadastrou. */
+/** Grade "Contos do mês": os escolhidos no Escritório + tudo que o autor cadastrou depois. */
 export function renderMonthly() {
   if (!monthlyGrid) return;
   const customKeys = storyOrder.filter(k => !BUILTIN_KEYS.includes(k));

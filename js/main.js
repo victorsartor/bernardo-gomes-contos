@@ -1,11 +1,22 @@
-/* Ponto de entrada. Liga os eventos e sobe o site no idioma salvo. */
+/* Ponto de entrada. Carrega os contos, liga os eventos e sobe o site.
+ *
+ * O `await` no topo do arquivo é o motivo de main.js precisar ser
+ * `type="module"` (index.html já está assim) — sem isso o resto do app
+ * rodaria antes de storyOrder/stories existirem. */
 
-import { state, storyOrder } from './state.js';
+import { state, storyOrder, loadContent } from './state.js';
 import { openReader, goHome, openAdjacent } from './reader.js';
 import { initModals, initCookieBanner } from './modals.js';
 import { initDrawerParallax } from './drawer.js';
-import { initStudio } from './studio.js';
 import { applyLanguage } from './lang.js';
+
+await loadContent();
+
+/* bookmark antigo do Escritório (era um modal em #escritorio) — manda
+   pro painel de verdade em vez de cair numa hash morta */
+if (location.hash === '#escritorio') {
+  location.replace('/admin/');
+}
 
 /* ---------- Leitura ---------- */
 
@@ -85,6 +96,5 @@ if (newsletterForm) {
 initDrawerParallax();
 initModals();
 initCookieBanner();
-initStudio();
 
 applyLanguage(state.lang);

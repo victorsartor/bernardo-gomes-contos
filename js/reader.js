@@ -1,6 +1,6 @@
 /* View de leitura: abrir um conto, voltar para a home, navegar entre contos. */
 
-import { state, storyOrder, customCovers, tStory } from './state.js';
+import { state, storyOrder, customCover, tStory } from './state.js';
 import { defaultCovers } from './data/covers.js';
 
 const appShell = document.getElementById('appShell');
@@ -13,8 +13,9 @@ const storyHero = document.getElementById('storyHero');
 
 /** Fundo do herói: capa do autor se existir, senão a imagem padrão do conto. */
 export function storyBg(key) {
-  if (customCovers[key]) {
-    return `linear-gradient(90deg, rgba(40,28,22,.66), rgba(120,95,72,.28), rgba(244,235,220,.82)), url("${customCovers[key]}")`;
+  const cover = customCover(key);
+  if (cover) {
+    return `linear-gradient(90deg, rgba(40,28,22,.66), rgba(120,95,72,.28), rgba(244,235,220,.82)), url("${cover}")`;
   }
   return defaultCovers[key];
 }
