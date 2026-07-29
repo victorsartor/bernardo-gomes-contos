@@ -9,6 +9,7 @@ import { openReader, goHome, openAdjacent } from './reader.js';
 import { initModals, initCookieBanner } from './modals.js';
 import { initDrawerParallax } from './drawer.js';
 import { applyLanguage } from './lang.js';
+import { ui } from './data/i18n.js';
 
 await loadContent();
 
@@ -73,19 +74,49 @@ const langEn = document.getElementById('langEn');
 if (langPt) langPt.addEventListener('click', () => applyLanguage('pt'));
 if (langEn) langEn.addEventListener('click', () => applyLanguage('en'));
 
-/* ---------- Newsletter ---------- */
-/* TODO: ainda não envia para lugar nenhum. Ver ANALISE-DESIGN.md, plano item 17. */
+/* ---------- Newsletter ----------
+   Submete pro Buttondown via /api/newsletter (a chave de API fica só no
+   servidor — ver api/newsletter.js). Botão desabilitado durante o envio
+   pra um clique duplo não disparar duas requisições. */
 
 const newsletterForm = document.getElementById('newsletterForm');
 const newsletterNote = document.getElementById('newsletterNote');
+const newsletterEmailInput = document.getElementById('newsletterEmail');
+const newsletterBtn = document.getElementById('newsletterBtn');
 
 if (newsletterForm) {
-  newsletterForm.addEventListener('submit', (event) => {
+  newsletterForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    newsletterNote.textContent = state.lang === 'en'
-      ? 'Subscription recorded. Connect this form to your email service.'
-      : 'Inscrição registrada. Integre este formulário ao seu serviço de e-mail.';
-    newsletterForm.reset();
+    const u = ui[state.lang];
+    const email = newsletterEmailInput.value.trim();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newsletterNote.textContent = u.newsletterInvalid;
+      return;
+    }
+
+    newsletterBtn.disabled = true;
+    newsletterNote.textContent = u.newsletterSending;
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        newsletterNote.textContent = data.alreadySubscribed ? u.newsletterAlready : u.newsletterSuccess;
+        newsletterForm.reset();
+      } else {
+        newsletterNote.textContent = u.newsletterError;
+      }
+    } catch (err) {
+      newsletterNote.textContent = u.newsletterError;
+    } finally {
+      newsletterBtn.disabled = false;
+    }
   });
 }
 
