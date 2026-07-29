@@ -114,6 +114,28 @@ não pedir que ele mesmo crie a conta:
 conto → **Publicar**. Isso vira um commit em `content/contos.json`, o Vercel
 redeploya, e em 1–3 minutos está no ar — sem precisar de mim.
 
+## Newsletter (Buttondown)
+
+O formulário de newsletter manda a inscrição pra `/api/newsletter`, que repassa pro
+Buttondown com a chave de API guardada só no servidor (mesmo padrão do login do
+Escritório). Sem essa chave configurada, o formulário responde com erro claro em vez
+de fingir que funcionou — teste em produção agora (antes de configurar):
+`curl -X POST .../api/newsletter -d '{"email":"teste@x.com"}'` → `{"error":"not-configured"}`.
+
+**Configuração (pendente):**
+
+1. Criar conta em [buttondown.com](https://buttondown.com) — de preferência com o
+   e-mail do próprio Bernardo, já que é ele quem vai entrar lá pra escrever e mandar
+   a newsletter no dia a dia (mesmo raciocínio da conta do GitHub).
+2. Gerar uma API key nas configurações da conta (Settings → Programming/API).
+3. Me passar a chave (ou colar você mesmo, já que tem acesso ao projeto):
+   `vercel env add BUTTONDOWN_API_KEY production`, depois `vercel --prod` pra entrar
+   em vigor.
+
+Buttondown usa **double opt-in** por padrão — quem assina recebe um e-mail de
+confirmação antes de virar inscrito de verdade. Isso já está refletido na mensagem
+de sucesso do formulário ("confira seu e-mail para confirmar").
+
 ## CSS
 
 Os 15 arquivos são carregados **em ordem numérica** e a ordem importa: `09-overrides.css`
@@ -127,4 +149,5 @@ A Fase 1 (motion + mobile, os dois pedidos do briefing original) está feita. O 
 ainda falta é Fase 2 (tokens de duração/easing, crossfade do preview, reveal on
 scroll, `prefers-reduced-motion` completo) e Fase 3 (acabamento: `backdrop-filter`,
 herói de leitura responsivo, consolidar os 122 `!important` do CSS). Lista completa
-com prioridade em `../ANALISE-DESIGN.md`, seção 7.
+com prioridade em `../ANALISE-DESIGN.md`, seção 7. O item 17 dessa lista (newsletter
+sem back-end de verdade) já foi resolvido — ver seção acima.
