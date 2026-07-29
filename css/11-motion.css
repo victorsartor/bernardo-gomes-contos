@@ -1,0 +1,137 @@
+/* =========================================================
+   MELHORIAS 2026 — motion da gaveta, ícones, leitura, privacidade
+   ========================================================= */
+
+/* ---- Motion da gaveta: profundidade 3D real + entrada ---- */
+.drawer-zone {
+  perspective: 1400px;        /* dá volume ao tilt do parallax */
+  perspective-origin: 50% 42%;
+}
+
+.real-drawer {
+  transform-style: preserve-3d !important;
+  /* sem transition de transform aqui: js/drawer.js já escreve um valor
+     interpolado (lerp) a cada frame via requestAnimationFrame — encadear
+     uma transition de 500ms por cima disso faz o tilt correr sempre
+     ~300ms atrás do cursor. Ver ANALISE-DESIGN.md M2/M3. A suavização
+     do "soltar o mouse" (voltar a 0°) também é feita pelo próprio lerp,
+     então não depende de transition. */
+  transition: filter .45s ease !important;
+}
+
+/* fichas com leve profundidade ao passar o mouse na gaveta */
+.hotspot {
+  transition: transform .22s cubic-bezier(.16,1,.3,1) !important;
+}
+
+/* ---- Ficha de papel que sobe da gaveta ao selecionar ---- */
+.ficha-paper {
+  position: absolute;
+  left: 24%;
+  width: 52%;
+  z-index: 26;
+  pointer-events: none;
+  padding: 9px 16px 12px;
+  border-radius: 3px 3px 4px 4px;
+  background: linear-gradient(176deg, #fdf4e2 0%, #f4e7cf 78%, #ecdcc0 100%);
+  border: 1px solid rgba(120,86,58,.30);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 18px 30px rgba(58,36,20,.26),
+    0 6px 10px rgba(58,36,20,.14);
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: transform, opacity, top;
+  transition: top .32s cubic-bezier(.16,1,.3,1);
+}
+
+/* aba (tab) de pasta de arquivo no topo da ficha */
+.ficha-paper .fp-tab {
+  position: absolute;
+  top: -7px;
+  left: 18px;
+  width: 46px;
+  height: 9px;
+  border-radius: 4px 4px 0 0;
+  background: var(--wine);
+  box-shadow: 0 -1px 0 rgba(255,255,255,.25) inset;
+}
+
+.ficha-paper .fp-eyebrow {
+  display: block;
+  font: 700 8px/1 Cinzel, serif;
+  letter-spacing: .16em;
+  color: var(--wine-soft);
+  opacity: .85;
+}
+.ficha-paper .fp-title {
+  display: block;
+  margin-top: 4px;
+  font-family: Cormorant Garamond, Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(13px, 2.7vw, 19px);
+  line-height: 1;
+  color: var(--wine-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ficha-paper .fp-line {
+  display: block;
+  margin-top: 7px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(92,31,37,.35), transparent);
+}
+
+/* dispara o movimento a cada seleção */
+.ficha-paper.rise {
+  animation: fichaRise .55s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes fichaRise {
+  0%   { opacity: 0; transform: translateY(14px) rotate(0deg) scale(.99); }
+  55%  { opacity: 1; transform: translateY(-30px) rotate(-1.6deg) scale(1.015); }
+  100% { opacity: 1; transform: translateY(-24px) rotate(-1.2deg) scale(1); }
+}
+
+/* respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .drawer-stage,
+  .drawer-img,
+  .reader-head-content,
+  .reader-view { animation: none !important; }
+  .real-drawer { transform: none !important; }
+  .ficha-paper.rise { animation: none !important; opacity: 1; transform: translateY(-16px); }
+}
+
+/* ---- Ícones editoriais (traço fino, tom vinho) ---- */
+.ico {
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -.14em;
+  flex: 0 0 auto;
+}
+
+/* ícone de arquivo/gaveta na mini-nav substitui a caixinha CSS */
+.archive-icon {
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  color: #3c2d27;
+  font-size: 26px;
+}
+.archive-icon::before { content: none !important; }
+
+.newsletter-kicker { display: inline-flex; align-items: center; gap: 9px; }
+.newsletter-kicker .ico { font-size: 17px; color: var(--wine-soft); }
+
+.reader-back .ico { font-size: 17px; }
+.reader-meta .ico { font-size: 16px; }
+
+.btn span,
+.reader-secondary { display: inline-flex; align-items: center; gap: 8px; }
+.btn .ico { font-size: 18px; }

@@ -1,0 +1,275 @@
+/* ===== AJUSTE SOLICITADO =====
+   Remove a aba superior e elimina a sombra/névoa sobre o card de destaque.
+*/
+.top-nav {
+  display:none !important;
+}
+
+.home-wrap {
+  margin-top:0 !important;
+  width:min(1480px, calc(100% - 40px)) !important;
+  border-radius:0 0 18px 18px;
+}
+
+.home-page {
+  padding-top:44px !important;
+}
+
+.hero {
+  grid-template-columns:.9fr 1.16fr .9fr !important;
+  gap:34px !important;
+  align-items:center !important;
+}
+
+.drawer-zone {
+  z-index:3 !important;
+  transform:none !important;
+  overflow:visible !important;
+}
+
+.drawer-zone::before {
+  display:none !important;
+}
+
+.real-drawer {
+  width:min(620px, 100%) !important;
+  z-index:3 !important;
+}
+
+.drawer-img {
+  filter:
+    drop-shadow(0 30px 32px rgba(62,38,25,.18))
+    drop-shadow(0 9px 11px rgba(62,38,25,.08)) !important;
+}
+
+.preview {
+  position:relative !important;
+  z-index:6 !important;
+  transform:none !important;
+  background:rgba(255,251,244,.92) !important;
+  box-shadow:0 18px 45px rgba(70,42,26,.12) !important;
+  backdrop-filter:none !important;
+}
+
+.preview *,
+.preview h2,
+.preview p,
+.preview .eyebrow,
+.preview .pill {
+  text-shadow:none !important;
+  filter:none !important;
+}
+
+.preview h2,
+.preview p {
+  opacity:1 !important;
+}
+
+.copy {
+  z-index:6 !important;
+}
+
+@media (max-width:1250px) {
+  .home-wrap {
+    width:calc(100% - 28px) !important;
+  }
+
+  .hero {
+    grid-template-columns:1fr !important;
+    gap:26px !important;
+  }
+
+  .real-drawer {
+    width:min(680px, 100%) !important;
+  }
+
+  .preview {
+    max-width:710px !important;
+    margin:0 auto !important;
+  }
+}
+
+@media (max-width:820px) {
+  .home-wrap {
+    width:100% !important;
+  }
+
+  .real-drawer {
+    width:min(560px, 110vw) !important;
+  }
+}
+
+
+/* ===== GAVETA MAIS LIMPA E FIEL À REFERÊNCIA =====
+   - usa um crop limpo da gaveta
+   - remove o efeito de "quadrado" atrás
+   - evita qualquer sobreposição do texto esquerdo e do card direito
+*/
+.home-wrap {
+  background: rgba(255,252,247,.86) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+.home-page::before {
+  opacity: .34 !important;
+}
+
+.hero {
+  grid-template-columns: .88fr 1.02fr .88fr !important;
+  gap: 44px !important;
+  align-items: center !important;
+}
+
+.copy,
+.preview {
+  position: relative;
+  z-index: 5 !important;
+}
+
+.copy {
+  transform: translateY(-8px) !important;
+  max-width: 360px;
+}
+
+.drawer-zone {
+  min-height: auto !important;
+  padding: 8px 0 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+  z-index: 3 !important;
+}
+
+.drawer-zone::before {
+  display: none !important;
+}
+
+.real-drawer {
+  width: min(560px, 100%) !important;
+  /* proporção real do PNG (1269x1240) — ver css/04-drawer.css e ANALISE-DESIGN.md B11 */
+  aspect-ratio: 1269 / 1240 !important;
+  background: transparent !important;
+  z-index: 3 !important;
+  transform-origin: center bottom !important;
+}
+
+.real-drawer::before {
+  left: 14% !important;
+  right: 14% !important;
+  bottom: 2.5% !important;
+  height: 10% !important;
+  background: radial-gradient(ellipse at center, rgba(53,32,22,.22), transparent 70%) !important;
+  filter: blur(10px) !important;
+}
+
+.drawer-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter:
+    drop-shadow(0 24px 26px rgba(62,38,25,.16))
+    drop-shadow(0 8px 10px rgba(62,38,25,.07)) !important;
+  background: transparent !important;
+}
+
+.real-drawer:hover .drawer-img {
+  transform: translateY(-4px) scale(1.01) !important;
+  filter:
+    drop-shadow(0 28px 30px rgba(62,38,25,.18))
+    drop-shadow(0 10px 12px rgba(62,38,25,.08)) !important;
+}
+
+.preview {
+  transform: none !important;
+  margin-left: 0 !important;
+  background: rgba(255,251,244,.95) !important;
+  box-shadow: 0 18px 40px rgba(70,42,26,.10) !important;
+  backdrop-filter: none !important;
+}
+
+@media (max-width: 1250px) {
+  .hero {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .copy {
+    max-width: none;
+    transform: none !important;
+  }
+
+  .real-drawer {
+    width: min(580px, 100%) !important;
+  }
+
+  .preview {
+    max-width: 710px !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .real-drawer {
+    width: min(520px, 100%) !important;
+  }
+}
+
+/* ===== drawer transparency / no square behind ===== */
+.drawer-zone {
+  background: transparent !important;
+}
+
+.real-drawer {
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.drawer-img {
+  background: transparent !important;
+  mix-blend-mode: normal;
+  filter:
+    drop-shadow(0 24px 26px rgba(62,38,25,.16))
+    drop-shadow(0 8px 10px rgba(62,38,25,.07)) !important;
+}
+
+.real-drawer::before {
+  left: 15% !important;
+  right: 15% !important;
+  bottom: 1.8% !important;
+  height: 8% !important;
+  background: radial-gradient(ellipse at center, rgba(53,32,22,.18), transparent 72%) !important;
+}
+
+/* PATCH FINAL: restaura hover/click nas fichas da gaveta */
+.real-drawer {
+  pointer-events: auto !important;
+}
+
+.drawer-img {
+  pointer-events: none !important;
+}
+
+.hotspot {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* nota: cada ficha é centrada verticalmente com translateY(-50%) em
+   css/04-drawer.css (--row-top é o centro da linha, não o topo). Este
+   !important precisa manter os dois translateY, senão a ficha perde a
+   centralização ao ganhar foco/hover/seleção. */
+.hotspot:hover,
+.hotspot.active,
+.hotspot:focus-visible {
+  transform: translateY(-50%) translateY(-8px) !important;
+  z-index: 40 !important;
+}
+
+.preview {
+  pointer-events: auto !important;
+}

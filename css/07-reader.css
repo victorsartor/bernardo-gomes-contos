@@ -1,0 +1,176 @@
+/* ===== READER VIEW ===== */
+.reader-view {
+  display:none;
+  min-height:100vh;
+  background:#f2eadf;
+  animation:fadeIn .35s ease both;
+}
+
+.app-shell.is-reading .home-view {
+  display:none;
+}
+
+.app-shell.is-reading .reader-view {
+  display:block;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+.story-hero {
+  position:relative;
+  min-height:520px;
+  overflow:hidden;
+  background:#d8cfbf;
+}
+
+.story-hero::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--story-bg);
+  background-size:cover;
+  background-position:center;
+  filter:saturate(.78) contrast(.92);
+  transform:scale(1.03);
+}
+
+.story-hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(243,235,223,.16) 0%, rgba(243,235,223,.30) 40%, #f2eadf 87%),
+    linear-gradient(90deg, rgba(242,234,223,.78) 0%, rgba(242,234,223,.30) 38%, rgba(242,234,223,.58) 100%);
+}
+
+.reader-head-content {
+  position:relative;
+  z-index:2;
+  width:min(720px, calc(100% - 48px));
+  margin:0 auto;
+  padding-top:245px;
+  animation:readerRise .6s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes readerRise {
+  from { opacity:0; transform:translateY(26px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.reader-back {
+  border:0;
+  background:transparent;
+  color:#6a5c51;
+  font-size:16px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:28px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.reader-back:hover {
+  color:var(--wine);
+  transform:translateX(-3px);
+}
+
+.reader-tags {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:30px;
+}
+
+.reader-tag {
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:6px 14px;
+  border-radius:999px;
+  background:rgba(255,249,241,.55);
+  color:#706257;
+  border:1px solid rgba(100,76,58,.08);
+  font-weight:800;
+  font-size:13px;
+  backdrop-filter:blur(8px);
+}
+
+.reader-title {
+  font-family:Cormorant Garamond, Georgia, serif;
+  color:#241b17;
+  font-size:clamp(54px, 5.8vw, 84px);
+  line-height:1.03;
+  letter-spacing:-.045em;
+  font-weight:700;
+  max-width:720px;
+  margin-bottom:22px;
+}
+
+.reader-meta {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  color:#6d6159;
+  font-size:16px;
+  font-weight:700;
+}
+
+.reader-meta span {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.reader-body {
+  width:min(720px, calc(100% - 48px));
+  margin:0 auto;
+  padding:52px 0 90px;
+}
+
+.story-text {
+  font-family:Cormorant Garamond, Georgia, serif;
+  font-size:30px;
+  line-height:1.5;
+  color:#2e2520;
+  letter-spacing:-.01em;
+}
+
+.story-text p + p {
+  margin-top:26px;
+}
+
+.reader-actions {
+  margin-top:44px;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  border-top:1px solid rgba(92,31,37,.14);
+  padding-top:26px;
+}
+
+.reader-secondary {
+  border:1px solid rgba(92,31,37,.18);
+  background:rgba(255,249,241,.55);
+  color:var(--wine);
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:800;
+}
+
+.reader-secondary:hover {
+  background:rgba(255,249,241,.88);
+}
+
+/* ---- Leitura premium: capitular elegante ---- */
+.story-text > p:first-of-type::first-letter {
+  font-family: Cinzel, Georgia, serif;
+  font-size: 3.1em;
+  line-height: .82;
+  float: left;
+  padding: 6px 12px 0 0;
+  color: var(--wine);
+}
