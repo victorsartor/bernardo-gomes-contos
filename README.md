@@ -83,11 +83,30 @@ Redeploy depois de salvar (env var nova só entra em vigor num deploy novo — u
 `admin/config.yml` já está apontando pro domínio certo (`base_url` preenchido) —
 não precisa mexer nisso.
 
-**3. Convidar o Bernardo (se ele for editar sozinho)**
-Login com GitHub só funciona de verdade se a conta logada tiver permissão de escrita
-no repositório — sem isso, ele entra no `/admin` mas o botão "Publicar" falha ao
-tentar commitar. Em Settings → Collaborators do repositório, adicionar a conta GitHub
-dele.
+**3. Criar o acesso do Bernardo — sem ele precisar entender GitHub**
+
+Login só funciona de verdade se a conta tiver permissão de escrita no repositório;
+sem isso ele entra no `/admin` mas o "Publicar" falha ao tentar commitar. Para um
+cliente não-técnico, a forma mais simples é você (Victor) fazer o cadastro por ele,
+não pedir que ele mesmo crie a conta:
+
+1. Em [github.com/signup](https://github.com/signup), criar uma conta usando o
+   **e-mail de verdade do Bernardo** (importante: o e-mail dele, não um seu — é
+   assim que ele consegue recuperar a senha sozinho no futuro, se precisar).
+   Nome de usuário pode ser qualquer coisa, ex.: `bernardogomes-contos`.
+2. Me avisar o username criado — eu adiciono ele como colaborador do repositório
+   (`gh api repos/victorsartor/bernardo-gomes-contos/collaborators/<username> -X PUT`),
+   sem precisar abrir o GitHub na mão.
+3. Duas formas de entregar o acesso, dependendo de quanto contato ele vai ter com a
+   conta:
+   - **Ele nunca precisa saber que é GitHub:** você loga uma vez no aparelho dele
+     (celular ou notebook), marca "lembrar por 30 dias"/deixa o navegador salvar a
+     sessão, e deixa o link `bernardo-gomes-contos.vercel.app/admin` salvo na tela
+     inicial. Ele só toca no ícone e já cai direto no painel.
+   - **Ele pode precisar entrar em outro aparelho algum dia:** depois do cadastro,
+     clique em "Esqueci minha senha" pra ele definir a própria senha pelo e-mail
+     dele — assim ele consegue entrar sozinho de qualquer lugar sem depender de
+     você guardar a senha.
 
 ### Uso do dia a dia (depois de configurado)
 
