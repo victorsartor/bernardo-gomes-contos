@@ -1,8 +1,22 @@
+# Este repositório é SÓ do site do Bernardo Gomes.
+# Nada de ORVX / MazyOS entra aqui — nem contexto de agente, nem memória
+# interna, nem material de outros clientes. As linhas abaixo garantem isso
+# mesmo que algum arquivo desses apareça na pasta por engano.
+/.claude/
+/_memoria/
+/identidade/
+/templates/
+CLAUDE.md
+
+# Sistema
 .DS_Store
 Thumbs.db
+
+# Dependências e build
 node_modules/
 *.log
-.vercel
 
+# Deploy e segredos
 .vercel
 .env*
+!.env.example
